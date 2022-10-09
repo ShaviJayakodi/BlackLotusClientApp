@@ -108,9 +108,36 @@ namespace BlackLotusClientApp.Forms
         }
 
         //Delete Category
-        private void btnDelete_Click(object sender, EventArgs e)
+        private async void btnDelete_Click(object sender, EventArgs e)
         {
+            var Response = await Delete(txtCategorId.Text);
+            LoadData();
+        }
+        public static async Task<string> Delete(String categoryId)
+        {
+            using (HttpClient client = new HttpClient())
+            {
 
+                using (HttpResponseMessage res = await client.DeleteAsync("https://localhost:44372/api/category/" + categoryId))
+                {
+                    using (HttpContent content = res.Content)
+                    {
+                        MessageBox.Show("Successfully Deleted");
+
+                        string data = await content.ReadAsStringAsync();
+
+
+                        if (data != null)
+                        {
+                            return data;
+                        }
+                    }
+
+
+                }
+            }
+
+            return string.Empty;
         }
     }
 
