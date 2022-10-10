@@ -166,7 +166,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvCategory);
             this.Name = "FormCategory";
-            this.Text = "FormCategory";
+            this.Text = "Category Management";
             this.Load += new System.EventHandler(this.FormCategory_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvCategory)).EndInit();
             this.ResumeLayout(false);

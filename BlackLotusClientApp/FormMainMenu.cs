@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Net.Sockets;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -25,7 +26,17 @@ namespace BlackLotusClientApp
         {
             InitializeComponent();
             random = new Random();
+            btnCloseChildForm.Visible = false;
+            this.Text = string.Empty;
+            this.ControlBox = false;
+            this.MaximizedBounds = Screen.FromHandle(this.Handle).WorkingArea;
         }
+
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(System.IntPtr hWhd, int wMsg, int wParam, int lParam);
 
         //method
         private Color SelectTheameColor()
@@ -58,6 +69,7 @@ namespace BlackLotusClientApp
                     panelLogo.BackColor = TheamColor.ChangeColorBrightness(color,-0.3);
                     TheamColor.PrimaryColor = color;
                     TheamColor.SecondaryColor = TheamColor.ChangeColorBrightness(color, -0.3);
+                    btnCloseChildForm.Visible = true;
                 }
             }
 
@@ -125,6 +137,49 @@ namespace BlackLotusClientApp
 
         }
 
+        private void btnCloseChildForm_Click(object sender, EventArgs e)
+        {
+            if(activeForm!=null)
+                activeForm.Close();
+            Reset();
+        }
+
+        private void Reset()
+        {
+            DisabledButton();
+            lblTitle.Text = "Black Lotus Management System";
+            panelTitleBar.BackColor = Color.FromArgb(52, 52, 79);
+            panelLogo.BackColor = Color.FromArgb(39,39,58);
+            currentButton = null;
+            btnCloseChildForm.Visible = false;
+        }
+
+        private void panelTitleBar_MouseDown(object sender, MouseEventArgs e)
+        {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
+        }
+
        
+
+       
+
+        private void btnClose_Click_1(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMinimize_Click_1(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void btnMaximize_Click(object sender, EventArgs e)
+        {
+            if(WindowState == FormWindowState.Normal)
+                this.WindowState=FormWindowState.Maximized;
+            else
+                this.WindowState=FormWindowState.Normal;
+        }
     }
 }

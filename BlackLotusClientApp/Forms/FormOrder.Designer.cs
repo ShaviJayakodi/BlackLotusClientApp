@@ -209,7 +209,7 @@
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvOrder);
             this.Name = "FormOrder";
-            this.Text = "FormOrder";
+            this.Text = "Order Management";
             this.Load += new System.EventHandler(this.FormOrder_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvOrder)).EndInit();
             this.ResumeLayout(false);

@@ -277,7 +277,7 @@
             this.Controls.Add(this.lblFlowerName);
             this.Controls.Add(this.dgvFlower);
             this.Name = "FormFlower";
-            this.Text = "FormFlower";
+            this.Text = "Flower Management";
             this.Load += new System.EventHandler(this.FormFlower_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvFlower)).EndInit();
             this.ResumeLayout(false);
